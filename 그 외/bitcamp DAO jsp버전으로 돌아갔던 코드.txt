@@ -1,0 +1,111 @@
+//	private Connection conn;
+////	private PreparedStatement pstmt;
+//	//함수가 3개나 있기 떄문에 각각 연결하면서 충돌이 나지 않게 함수 안에 넣어준다
+//	private ResultSet rs;
+//	
+//	public DAO() {
+//		try {
+//			String dbURL = "jdbc:oracle:thin:@localhost:1521:xe"; //mysql 서버 
+//			String dbID = "bitcamp";
+//			String dbPassword = "bitcamppw";
+//			Class.forName("oracle.jdbc.OracleDriver");
+//			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+//		} catch (Exception e){
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	//날짜 구하기 -- 이건 너무 mySql 꺼라 오라클엔 적용 안됨..
+//	public String getDate() {
+//		String SQL = "SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') FROM DUAL ";
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(SQL);
+//			rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				return rs.getString(1);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return ""; //빈 문자열 return 해줘서 데이터베이스 오류 알 수 있게 해준다
+//	}
+//	
+//	
+//	//게시글 번호 내림차순
+//	public int getNext() {
+//		String SQL = "SELECT A_IDX FROM ATTENDANCE ORDER BY A_IDX DESC ";
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(SQL);
+//			rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				return rs.getInt(1) + 1 ;
+//			}
+//			return 1;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return -1; //데이터베이스 오류
+//	}
+//	
+//	//글쓰기
+//	public int write(String a_title, String a_content, String a_type, String a_writer) {
+//		String SQL = "INSERT INTO ATTENDANCE \r\n"
+//				+ "    (A_IDX, A_TITLE, A_CONTENT, A_TYPE, A_WRITER, USER_ID, WRITE_DATE, MOD_DATE, ORI_NAME, AVAILABLE, STATUS, FILE_NAME )\r\n "
+//				+ "    VALUES (?, ?, ?, ?, ?, ?, sysdate, sysdate, ?, ?, ?, ?) ";
+//		//    VALUES (A_SEQ.NEXTVAL, '조퇴 신청합니다', '이슬 조퇴각', '조퇴', '김이슬', 'fresh', sysdate, sysdate, 'iseul.jpg', 1, 1, 'cham.jpg');
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(SQL);
+//			pstmt.setInt(1, getNext()); //다음번에 쓰여야 될 게시글 번호
+//			pstmt.setString(2, a_title);
+//			pstmt.setString(3, a_content);
+//			pstmt.setString(4, a_type);
+//			pstmt.setString(5, a_writer);
+//			pstmt.setString(6, null);
+//			pstmt.setString(7, null);
+//			pstmt.setString(8, "1");
+//			pstmt.setString(9, "0");
+//			pstmt.setString(10, null);
+//			return pstmt.executeUpdate(); //성공하면 1 반환
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return -1; // 데이터베이스 오류
+//		
+//	}
+//	
+//	//게시글 전체 보기
+//	public ArrayList<AttVO> getList2(int pageNumber) {
+//		String SQL = "SELECT * \r\n"
+//				+ "    FROM ATTENDANCE \r\n"
+//				+ "    WHERE A_IDX < ? AND AVAILABLE = 1 \r\n"
+//				+ "    AND ROWNUM <= 4 \r\n"
+//				+ "    ORDER BY A_IDX DESC ";
+//		ArrayList<AttVO> list = new ArrayList<AttVO>();
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(SQL);
+//			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+//			rs = pstmt.executeQuery();
+//			
+//			//list에는 while!!! if 아니라!!!!!
+//			while (rs.next()) { //진행되면
+//				AttVO attVo = new AttVO();
+//				attVo.setA_idx(rs.getString(1));
+//				attVo.setA_title(rs.getString(2));
+//				attVo.setA_content(rs.getString(3));
+//				attVo.setA_type(rs.getString(4));
+//				attVo.setA_writer(rs.getString(5));
+//				attVo.setUser_id(rs.getString(6));
+//				attVo.setWrite_date(rs.getString(7));
+//				attVo.setMod_date(rs.getString(8));
+//				attVo.setOri_name(rs.getString(9));
+//				attVo.setStatus(rs.getString(10));
+//				attVo.setAvailable(rs.getString(11));
+//				attVo.setFile_name(rs.getString(12));
+//				list.add(attVo);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return list; // 데이터베이스 오류
+//	}

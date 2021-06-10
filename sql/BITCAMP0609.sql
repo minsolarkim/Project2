@@ -1,0 +1,61 @@
+SELECT * FROM ATTENDANCE ORDER BY A_IDX DESC;
+
+SELECT * 
+    FROM ATTENDANCE 
+    WHERE AVAILABLE = 1
+    ORDER BY A_IDX DESC
+    ;
+
+--ROWNUM 사용 + available 1인 것만 보이게 
+SELECT *
+		  FROM (SELECT ROWNUM R_NUM, ATT.*
+		          FROM (SELECT *
+		                  FROM ATTENDANCE
+                          WHERE AVAILABLE = 1
+		                 ORDER BY A_IDX DESC
+		               ) ATT
+		       )
+		 WHERE R_NUM BETWEEN 1 AND 10
+;
+
+--제목으로 검색
+SELECT A_IDX, A_TYPE, A_TITLE, A_WRITER, WRITE_DATE, MOD_DATE, STATUS
+    FROM ATTENDANCE 
+    WHERE A_TITLE LIKE '%다%'
+    ORDER BY WRITE_DATE DESC
+    ;
+    
+--내용으로 검색
+SELECT A_IDX, A_TYPE, A_TITLE, A_WRITER, WRITE_DATE, MOD_DATE, STATUS
+    FROM ATTENDANCE 
+    WHERE A_CONTENT LIKE '%다%'
+    ORDER BY WRITE_DATE DESC
+    ;
+    
+--이름으로 검색
+SELECT A_IDX, A_TYPE, A_TITLE, A_WRITER, WRITE_DATE, MOD_DATE, STATUS
+    FROM ATTENDANCE 
+    WHERE A_WRITER LIKE '%노랑%'
+    ORDER BY WRITE_DATE DESC
+    ;
+
+--작성일 최신순 or 오래된 순 
+
+
+--수정일 최신순 !!
+
+--작성일 언제부터 언제까지 월말
+SELECT A_IDX, A_TYPE, A_TITLE, A_WRITER, WRITE_DATE, MOD_DATE, STATUS
+    FROM ATTENDANCE 
+    WHERE WRITE_DATE BETWEEN TO_DATE('2021-06-05', 'yyyy-MM-dd') AND TO_DATE('2021-06-06', 'yyyy-MM-dd')
+    ORDER BY WRITE_DATE DESC
+    ;
+
+--확인 안됨 status = 0 
+SELECT A_IDX, A_TYPE, A_TITLE, A_WRITER, WRITE_DATE, MOD_DATE, STATUS
+    FROM ATTENDANCE 
+    WHERE STATUS = 0
+    ORDER BY A_IDX DESC
+    ;
+
+    

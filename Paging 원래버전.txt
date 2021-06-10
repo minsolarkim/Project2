@@ -1,0 +1,38 @@
+<tfoot>
+				<tr>
+					<td colspan="4">
+						<ul class="pagination">
+						<c:if test="${pvo.beginPage == 1 }">
+							<li class="page-item disabled">이전</li>
+						</c:if>
+						<c:if test="${pvo.beginPage != 1 }">
+							<li class="page-item disabled">
+								<a href="list.jsp?cPage=${pvo.beginPage - 1}">이전</a> 
+							</li>
+						</c:if>
+						<!-- 블록 내 표시할 페이지 태그 작성 -->
+						<c:forEach var="pageNo" begin="${pvo.beginPage }" end="${pvo.endPage }">
+							<c:choose>
+							<c:when test="${pageNo == pvo.nowPage }">
+								<li class="page-item active">${pageNo }</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item active">
+									<a href="list.jsp?cPage=${pageNo }">${pageNo }</a>
+								</li>
+							</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<%--[다음으로] 사용여부 처리 --%>
+						<c:if test="${pvo.endPage >= pvo.totalPage }">
+							<li class="page-item">다음</li>
+						</c:if>
+						<c:if test="${pvo.endPage < pvo.totalPage }">
+							<li class="page-item"><a href="list.jsp?cPage=${pvo.endPage + 1 }">다음</a></li>
+						</c:if>
+						</ul>
+					
+						<a href="write.jsp" class="btn btn-info">글쓰기</a>
+					</td>
+				</tr>
+			</tfoot>

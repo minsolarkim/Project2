@@ -1,0 +1,16 @@
+<div class="form-group" style="text-align: center; margin: 0 auto;">
+							<div class="btn-group" data-toggle="buttons">
+								<label class="btn btn-primary">
+									<input type="radio" name="a_type" autocomplete="off" value="병결" checked>병결
+								</label>
+								<label class="btn btn-primary">
+									<input type="radio" name="a_type" autocomplete="off" value="조퇴">조퇴
+								</label>
+								<label class="btn btn-primary">
+									<input type="radio" name="a_type" autocomplete="off" value="취업활동">취업활동
+								</label>
+								<label class="btn btn-primary">
+									<input type="radio" name="a_type" autocomplete="off" value="비대면">비대면
+								</label>
+							</div>
+						</div>
